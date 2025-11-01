@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, CallbackContext
 
 # Настройка логирования
 logging.basicConfig(
@@ -49,7 +49,7 @@ GIF_URL = "https://i.gifer.com/3P0Ho.gif"
 # URL для Web App
 WEB_APP_URL = "https://itconcerent.github.io/markesell/"
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def start(update: Update, context: CallbackContext) -> None:
     """Обработчик команды /start"""
     try:
         keyboard = [[
@@ -70,7 +70,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     except Exception as e:
         logger.error(f"Помилка: {e}")
 
-async def shop_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def shop_command(update: Update, context: CallbackContext) -> None:
     """Обработчик команды /shop"""
     try:
         keyboard = [[
@@ -88,7 +88,7 @@ async def shop_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     except Exception as e:
         logger.error(f"Помилка: {e}")
 
-async def main() -> None:
+def main() -> None:
     """Запуск бота"""
     try:
         application = Application.builder().token(BOT_TOKEN).build()
@@ -99,12 +99,12 @@ async def main() -> None:
         logger.info("🤖 Бот запускається...")
         print("🤖 Бот запускається...")
         
-        await application.run_polling()
+        # Простой запуск
+        application.run_polling()
         
     except Exception as e:
         logger.error(f"❌ Помилка запуску: {e}")
         sys.exit(1)
 
 if __name__ == '__main__':
-    import asyncio
-    asyncio.run(main())
+    main()
